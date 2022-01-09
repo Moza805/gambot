@@ -1,0 +1,25 @@
+{
+  "name": "gambot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/builders": "^0.11.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "axios": "^0.24.0",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.5.1",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.6.0",
+    "nodemon": "^2.0.15"
+  }
+}
