@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 
-import { Intents, Client } from 'discord.js';
+import { Intents, Client, MessageEmbed } from 'discord.js';
 
 dotenv.config();
 
@@ -18,10 +18,40 @@ client.on('ready', () => {
 });
 
 client.on('messageCreate', (message) => {
-  console.log({ message });
+  switch (message.content) {
+    case 'ping':
+      message.reply('pong!');
+      break;
+    case 'roles':
+      {
+        const guild =
+          message.id !== null
+            ? client.guilds.cache.find((guild) => guild.id === message.guildId)
+            : null;
 
-  if (message.content === 'ping') {
-    message.reply('pong!');
+        if (guild == null) {
+          message.reply("You can't have a role outside of a guild");
+          return;
+        }
+        const userRolesInGuild = guild.roles.cache
+          .filter((role) =>
+            role.members.some((member) => member.id === message.author.id)
+          )
+          .map((urig) => ({
+            name: urig.name,
+            value: urig.permissions.toArray().join(', '),
+          }));
+
+        const roleEmbed = new MessageEmbed();
+        roleEmbed
+          .setTitle(`Current roles for ${message.author.username}`)
+          .setFields(userRolesInGuild)
+          .setImage(message.author.avatarURL({ size: 600 }))
+          .setTimestamp(new Date());
+
+        message.reply({ embeds: [roleEmbed] });
+      }
+      break;
   }
 });
 
